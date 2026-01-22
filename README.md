@@ -1,1 +1,1 @@
-# Blog# Blog
+# Frontend: React + TypeScript + Vite
