@@ -1,13 +1,20 @@
+import { generateCss } from '@/lib/design-system/script/generate-css'
 import type { Plugin } from 'vite'
 
 export default function designSystemPlugin(): Plugin {
-    
+
     return {
         name: 'design-system.plugin',
 
-        // 개발 서버 설정
-        configureServer(_server) {}
+        // 빌드 시작 시 Css 생성
+        buildStart() { generateCss(); },
 
+        // 개발 서버 설정
+        configureServer(_server) {
+            generateCss();
+
+            return
+        }
 
     }
 }
