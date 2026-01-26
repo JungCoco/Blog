@@ -1,0 +1,41 @@
+{
+    "color": {
+        "red-0": "#FF0000",
+        "red-1": "#FF3333",
+    
+        "blue-0": "#0000FF",
+        "blue-1": "#3333FF",
+        "blue-2": "#6666FF"
+    },
+
+    "text": {
+        "xs": "0.875rem",
+        "sm": "1.125rem",
+        "md": "1.25rem",
+        "lg": "1.5rem"
+    },
+
+    "spacing": {
+        "xs": "4px",
+        "sm": "8px",
+        "md": "12px",
+        "lg": "16px"
+    },
+
+    "font-weight": {
+        "regular": 400,
+        "medium": 500,
+        "bold": 700
+    },
+
+    "font-family": {
+        "sans": "Arial, sans-serif"
+    },
+
+    "line-height": {
+        "xs": 1.2,
+        "sm": 1.4,
+        "md": 1.6,
+        "lg": 1.8
+    }
+}
