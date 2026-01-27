@@ -1,7 +1,7 @@
 import { funcWriteCssFile } from '../lib/design-system/script/generate-css'
 import path from 'node:path'
 import type { Plugin } from 'vite'
-import { debounce } from 'lodash-es'
+import { throttle } from 'es-toolkit/function';
 
 export default function designSystemPlugin(): Plugin {
 
@@ -16,7 +16,7 @@ export default function designSystemPlugin(): Plugin {
             const root = server.config.root
             const filePath = 'src/lib/design-system/primitive/primitive-tokens.json'
             const tokenFile = path.resolve(root, filePath)
-            const runScript = debounce(() => { funcWriteCssFile(); }, 200)
+            const runScript = throttle(() => { funcWriteCssFile(); }, 300)
 
             server.watcher.add(tokenFile)
 
