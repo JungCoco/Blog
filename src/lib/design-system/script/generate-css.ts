@@ -23,6 +23,14 @@ type GeneratedToken =
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+
+/**
+ * @function funcGenerateTokens
+ * @description A function that converts token data into a CSS string.
+ * @param {string} Namespace of the CSS variable to be created.
+ * @param {GeneratedToken} tokens This is the raw data to be converted.
+ * @return {string} A string of CSS code formatted to match the given token type.
+ */
 function funcGenerateTokens({ prefix, tokens }: GeneratedToken) {
 
     if (prefix === 'text') {
@@ -60,6 +68,11 @@ function funcGenerateTokens({ prefix, tokens }: GeneratedToken) {
     }).join('\n') + '\n';
 }
 
+/**
+ * @function funcGenerateCss
+ * @description A function that composees a CSS layout by gathering various types of separated CSS tokens.
+ * @return {string} Final CSS layout.
+ */
 function funcGenerateCss() {
 
     const primitiveTokens = JSON.parse(
@@ -90,13 +103,28 @@ ${generatedSpacingTokens}
     `
 }
 
-export function funcWriteCssFile() {
-    const css = funcGenerateCss();
-    const outputPath = path.join(__dirname, '../css');
+/**
+ * @function funcWriteCssFile
+ * @description A function that runs the generate functions and saves the final CSS file.
+ * @return {boolean} Successful file creation.
+ */
+export function funcWriteCssFile(): boolean {
+    
+    try {
+        const css = funcGenerateCss();
+        const outputPath = path.join(__dirname, '../css');
 
-    if (!fs.existsSync(outputPath)) {
-        fs.mkdirSync(outputPath, { recursive: true });
+        if (!fs.existsSync(outputPath)) {
+            fs.mkdirSync(outputPath, { recursive: true });
+        }
+
+        fs.writeFileSync(path.join(outputPath, 'generated-theme.css'), css);
+
+        return true
+
+    } catch (e:unknown) {
+        console.error('Failed to write CSS generator file')
+
+        return false
     }
-
-    fs.writeFileSync(path.join(outputPath, 'generated-theme.css'), css);
 }
