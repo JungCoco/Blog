@@ -1,6 +1,19 @@
 
-@font-face {
 
+
+/** pretendard */
+@font-face {
+    font-family: "pretendard variable";
+    font-style: normal;
+    font-weight: 45 920;
+    font-display: swap;
+    src: url("/fonts/PretendardVariable.woff2") format("woff2");
+}
+
+@layer base {
+    body {
+        font-family: "pretendard variable", ui-sans-serif, system-ui, sans-serif;
+    }
 }
 
 

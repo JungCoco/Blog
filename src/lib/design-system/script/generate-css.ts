@@ -6,9 +6,18 @@ import path from 'node:path'
 type Tokens = Record<string, string>
 type TypographyValues = { fontSize: string, lineHeight: string }
 type TypographyTokens = Record<string, TypographyValues>
+type FontFaceValues = { 
+    fontFamily: string,
+    fontStyle: string,
+    fontWeight: string,
+    fontDisplay: string,
+    src: string
+}
+type FontFaceTokens = Record<string, FontFaceValues>
 
 type GeneratedToken = 
-    | { prefix: 'text', tokens: TypographyTokens}
+    | { prefix: 'text', tokens: TypographyTokens }
+    | { prefix: 'font-face', tokens: FontFaceTokens }
     | { prefix: string, tokens: Tokens };
 
 const __filename = fileURLToPath(import.meta.url);
@@ -22,6 +31,28 @@ function funcGenerateTokens({ prefix, tokens }: GeneratedToken) {
     --${prefix}-${key}: ${fontSize};
     --${prefix}-${key}--line-height: ${lineHeight};`
         }).join('\n') + '\n';
+    }
+
+    else if (prefix === 'font-face') {
+        return Object.entries(tokens).map(
+            ([key, { fontFamily, fontStyle, fontWeight, fontDisplay, src}]) => {
+                return `
+/** ${key} */
+@font-face {
+    font-family: "${fontFamily}";
+    font-style: ${fontStyle};
+    font-weight: ${fontWeight};
+    font-display: ${fontDisplay};
+    src: ${src};
+}
+
+@layer base {
+    body {
+        font-family: "${fontFamily}", ui-sans-serif, system-ui, sans-serif;
+    }
+}
+`
+            })
     }
 
     return Object.entries(tokens).map(([key, value]) => {
@@ -39,15 +70,13 @@ function funcGenerateCss() {
     const generatedColorTokens = funcGenerateTokens({ prefix: 'color', tokens: primitiveTokens["color"] });
     const generatedTypographyTokens = funcGenerateTokens({ prefix: 'text', tokens: primitiveTokens["typography"] });
     const generatedFontWeightTokens = funcGenerateTokens({ prefix: 'font-weight', tokens: primitiveTokens["font-weight"] });
-    // const generatedFontFamilyTokens = funcGenerateTokens({ prefix: 'font-family', tokens: primitiveTokens["font-family"] });
+    const generatedFontFamilyTokens = funcGenerateTokens({ prefix: 'font-face', tokens: primitiveTokens["font-face"] });
     const generatedRadiusTokens = funcGenerateTokens({ prefix: 'radius', tokens: primitiveTokens["radius"] });
     const generatedSpacingTokens = funcGenerateTokens({ prefix: 'spacing', tokens: primitiveTokens["spacing"] });
 
     return `
-@font-face {
 
-}
-
+${generatedFontFamilyTokens}
 
 @theme {
 

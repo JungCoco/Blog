@@ -23,8 +23,15 @@
         "bold": "700"
     },
 
-    "font-family": {
-        "sans": "Arial, sans-serif"
+    "font-face": {
+        "pretendard": {
+            "fontFamily": "pretendard variable",
+            "fontStyle": "normal",
+            "fontWeight": "45 920",
+            "fontDisplay": "swap",
+            "src": "url(\"/fonts/PretendardVariable.woff2\") format(\"woff2\")"
+        }
+        
     },
 
     "radius": {
