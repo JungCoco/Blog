@@ -1,23 +1,26 @@
 import fs from 'fs';
-import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import path from 'node:path'
 
 type Tokens = Record<string, string>
 type TypographyValues = { fontSize: string, lineHeight: string }
 type TypographyTokens = Record<string, TypographyValues>
 
-type GeneratedToken = {
-    prefix: string;
-    tokens: Tokens | TypographyTokens;
-}
+type GeneratedToken = 
+    | { prefix: 'text', tokens: TypographyTokens}
+    | { prefix: string, tokens: Tokens };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function funcGenerateTokens({ prefix, tokens }: GeneratedToken) {
 
     if (prefix === 'text') {
         return Object.entries(tokens).map(([key, { fontSize, lineHeight }]) => {
             return `    
-                --${prefix}-${key}: ${fontSize};
-                --${prefix}-${key}--line-height: ${lineHeight};
-            `
+    --${prefix}-${key}: ${fontSize};
+    --${prefix}-${key}--line-height: ${lineHeight};`
         }).join('\n') + '\n';
     }
 
@@ -47,11 +50,12 @@ function funcGenerateCss() {
 
 
 @theme {
-    ${generatedColorTokens}
-    ${generatedTypographyTokens}
-    ${generatedFontWeightTokens}
-    ${generatedRadiusTokens}
-    ${generatedSpacingTokens}
+
+${generatedColorTokens}
+${generatedTypographyTokens}
+${generatedFontWeightTokens}
+${generatedRadiusTokens}
+${generatedSpacingTokens}
 }
     
     `

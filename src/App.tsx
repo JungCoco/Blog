@@ -4,16 +4,16 @@ function App() {
   return (
     <main className="min-h-screen p-6 flex flex-col items-center justify-center gap-4">
       <h1 className="text-xl font-semibold">Test UI</h1>
-      <Button variant="destructive">Click me</Button>
-      <Button variant="outline">Click me</Button>
-      <Button variant="secondary">Click me</Button>
-      <Button variant="ghost">Click me</Button>
-      <Button variant="link">Click me</Button>
-      <Button size="sm">Click me</Button>
-      <Button size="lg">Click me</Button>
-      <Button size="icon">Click me</Button>
-      <Button size="icon-sm">Click me</Button>
-      <Button size="icon-lg">Click me</Button>
+      <Button className="rounded-lg bg-red-0">Click me</Button>
+      <Button className="p-lg">Click me</Button>
+      <Button className="p-0 p-sm">Click me</Button>
+      <div className="flex flex-col gap-sm">
+          <Button className="pl-sm font-bold text-md">Click me</Button>
+          <Button className="text-xl">Click me</Button>
+      </div>
+      <Button className="rounded-md font-bold">Click me</Button>
+      <Button className="text-blue-1 bg-blue-0">Click me</Button>
+      <Button>Click me</Button>
     </main>
   )
 }

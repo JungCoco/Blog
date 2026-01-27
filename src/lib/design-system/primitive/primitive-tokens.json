@@ -9,15 +9,17 @@
     },
 
     "typography": {
-        "typography-xs": { "fontSize": "0.875rem", "lineHeight": "1.2" },
-        "typography-sm": { "fontSize": "1.125rem", "lineHeight": "1.4" },
-        "typography-md": { "fontSize": "1.25rem", "lineHeight": "1.6" },
-        "typography-lg": { "fontSize": "1.5rem", "lineHeight": "1.8" }
+        "xs": { "fontSize": "0.875rem", "lineHeight": "1.2" },
+        "sm": { "fontSize": "1.125rem", "lineHeight": "1.4" },
+        "md": { "fontSize": "1.25rem", "lineHeight": "1.6" },
+        "lg": { "fontSize": "1.5rem", "lineHeight": "1.8" },
+        "xl": { "fontSize": "2.0rem", "lineHeight": "2.2" }
     },
 
     "font-weight": {
         "regular": "400",
         "medium": "500",
+        "semibold": "600",
         "bold": "700"
     },
 
@@ -29,12 +31,12 @@
         "sm": "4px",
         "md": "8px",
         "lg": "16px",
-        "xl": "32px"
+        "xl": "92px"
     },
 
     "spacing": {
         "xs": "4px",
-        "sm": "8px",
+        "sm": "90px",
         "md": "12px",
         "lg": "16px"
     }
