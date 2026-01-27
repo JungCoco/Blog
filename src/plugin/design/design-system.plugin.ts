@@ -1,4 +1,4 @@
-import { generateCss } from '@/lib/design-system/script/generate-css'
+import { funcWriteCssFile } from '@/lib/design-system/script/generate-css'
 import type { Plugin } from 'vite'
 
 export default function designSystemPlugin(): Plugin {
@@ -7,11 +7,11 @@ export default function designSystemPlugin(): Plugin {
         name: 'design-system.plugin',
 
         // 빌드 시작 시 Css 생성
-        buildStart() { generateCss(); },
+        buildStart() { funcWriteCssFile(); },
 
         // 개발 서버 설정
         configureServer(_server) {
-            generateCss();
+            funcWriteCssFile();
 
             return
         }
