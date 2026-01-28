@@ -2,10 +2,15 @@
     "color": {
         "red-0": "#FF0000",
         "red-1": "#FF3333",
+        "red-2": "#D95858",
 
         "blue-0": "#0000FF",
         "blue-1": "#3333FF",
-        "blue-2": "#6666FF"
+        "blue-2": "#6666FF",
+
+        "orange-0": "#Fd9A06",
+        "orange-1": "#FBAE3C",
+        "orange-2": "#FEDAA4"
     },
 
     "typography": {
