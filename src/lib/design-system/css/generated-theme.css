@@ -57,5 +57,9 @@
     --spacing-lg: 16px;
 
 }
+
+@media (prefers-color-schema: dark) {
+
+}
     
     

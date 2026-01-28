@@ -6,7 +6,7 @@ import path from 'node:path'
 type Tokens = Record<string, string>
 type TypographyValues = { fontSize: string, lineHeight: string }
 type TypographyTokens = Record<string, TypographyValues>
-type FontFaceValues = { 
+type FontFaceValues = {
     fontFamily: string,
     fontStyle: string,
     fontWeight: string,
@@ -15,7 +15,7 @@ type FontFaceValues = {
 }
 type FontFaceTokens = Record<string, FontFaceValues>
 
-type GeneratedToken = 
+type GeneratedToken =
     | { prefix: 'text', tokens: TypographyTokens }
     | { prefix: 'font-face', tokens: FontFaceTokens }
     | { prefix: string, tokens: Tokens };
@@ -43,7 +43,7 @@ function funcGenerateTokens({ prefix, tokens }: GeneratedToken) {
 
     else if (prefix === 'font-face') {
         return Object.entries(tokens).map(
-            ([key, { fontFamily, fontStyle, fontWeight, fontDisplay, src}]) => {
+            ([key, { fontFamily, fontStyle, fontWeight, fontDisplay, src }]) => {
                 return `
 /** ${key} */
 @font-face {
@@ -76,7 +76,7 @@ function funcGenerateTokens({ prefix, tokens }: GeneratedToken) {
 function funcGenerateCss() {
 
     const primitiveTokens = JSON.parse(
-        fs.readFileSync(path.join(__dirname, '../primitive/primitive-tokens.json'), 'utf8')
+        fs.readFileSync(path.join(__dirname, '../tokens/primitive-tokens.json'), 'utf8')
     );
     if (!primitiveTokens) throw new Error('Primitive tokens not found');
 
@@ -86,6 +86,7 @@ function funcGenerateCss() {
     const generatedFontFamilyTokens = funcGenerateTokens({ prefix: 'font-face', tokens: primitiveTokens["font-face"] });
     const generatedRadiusTokens = funcGenerateTokens({ prefix: 'radius', tokens: primitiveTokens["radius"] });
     const generatedSpacingTokens = funcGenerateTokens({ prefix: 'spacing', tokens: primitiveTokens["spacing"] });
+    // const generatedDarkmodeTokens = funcGenerateTokens({prefix: 'dark', tokens: primitiveTokens["dark"]});
 
     return `
 
@@ -99,6 +100,10 @@ ${generatedFontWeightTokens}
 ${generatedRadiusTokens}
 ${generatedSpacingTokens}
 }
+
+@media (prefers-color-schema: dark) {
+
+}
     
     `
 }
@@ -109,7 +114,7 @@ ${generatedSpacingTokens}
  * @return {boolean} Successful file creation.
  */
 export function funcWriteCssFile(): boolean {
-    
+
     try {
         const css = funcGenerateCss();
         const outputPath = path.join(__dirname, '../css');
@@ -122,8 +127,8 @@ export function funcWriteCssFile(): boolean {
 
         return true
 
-    } catch (e:unknown) {
-        console.error('Failed to write CSS generator file')
+    } catch (e: unknown) {
+        console.error('Failed to write CSS generator file', e instanceof Error ? e.message : 'Unknown error');
 
         return false
     }
