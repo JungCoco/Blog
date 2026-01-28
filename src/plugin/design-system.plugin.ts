@@ -14,7 +14,7 @@ export default function designSystemPlugin(): Plugin {
         // dev server setup
         configureServer(server) {
             const root = server.config.root
-            const filePath = 'src/lib/design-system/primitive/primitive-tokens.json'
+            const filePath = 'src/lib/design-system/tokens/primitive-tokens.json'
             const tokenFile = path.resolve(root, filePath)
             // @reference: https://es-toolkit.dev/ko/reference/function/throttle.html#throttle-func-throttlems-options
             const runScript = throttle(() => { funcWriteCssFile(); }, 300)
