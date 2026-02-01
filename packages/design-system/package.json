@@ -4,18 +4,19 @@
   "private": true,
   "type": "module",
   "exports": {
-	"./tokens": "./src/tokens/index.ts",
-	"./css": "./src/css/generated-theme.css",
-	"./script": "./src/script/generate-css.ts"
+    "./tokens": "./src/tokens/index.ts",
+    "./css": "./src/css/generated-theme.css",
+    "./script": "./src/script/generate-css.ts"
   },
   "scripts": {
-	"dev": "tsx watch src/script/generate-css.ts",
-	"build": "tsx src/script/generate-css.ts",
-	"clean": "rm -rf src/css/generated-theme.css dist .turbo"
+    "dev": "tsx watch src/script/generate-css.ts",
+    "build": "tsx src/script/generate-css.ts",
+    "clean": "rm -rf src/css/generated-theme.css dist .turbo"
   },
   "devDependencies": {
-	"@types/node": "^24.10.1",
-	"tsx": "^4.21.0",
-	"typescript": "~5.9.3"
+    "@types/node": "^24.10.1",
+    "@vanilla-extract/css": "^1.18.0",
+    "tsx": "^4.21.0",
+    "typescript": "~5.9.3"
   }
 }

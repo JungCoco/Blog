@@ -1,0 +1,19 @@
+# Build outputs
+dist
+dist-ssr
+build
+.next
+.output
+
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Turborepo
+.turbo
+
+# Generated
+*.tsbuildinfo
+
+# Design system generated CSS
+packages/design-system/src/css/generated-theme.css
