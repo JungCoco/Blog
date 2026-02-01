@@ -8,7 +8,9 @@
         "build": "tsc -b && vite build",
         "lint": "eslint .",
         "preview": "vite preview",
-        "re:design-tokens": "tsx src/lib/design-system/script/generate-css.ts"
+        "re:design-tokens": "tsx src/lib/design-system/script/generate-css.ts",
+        "clean": "rm -rf dist .turbo *.tsbuildinfo",
+        "clean:dist": "rm -rf dist"
     },
     "dependencies": {
         "@radix-ui/react-slot": "^1.2.4",

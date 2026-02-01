@@ -1,13 +1,49 @@
+# OS
 .DS_Store
+Thumbs.db
+
+# IDE
 .vscode
 .idea
-.turbo
+*.swp
+*.swo
+*~
+
+# Dependencies
 node_modules
+pnpm-lock.yaml  # 주의: 이건 빼야함!
+
+# Build outputs
 dist
+dist-ssr
 build
-coverage
+.next
+.output
+out
+
+# Turborepo
+.turbo
+
+# Logs
 logs
 *.log
-*.log.*
-*.log.*.*
-*.log.*.*.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
+# Environment
+.env
+.env*.local
+!.env.example
+
+# Temporary
+*.tmp
+*.temp
+.cache

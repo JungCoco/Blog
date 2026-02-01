@@ -6,7 +6,10 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
-    "clean": "turbo run clean && rm -rf node_modules"
+    "clean": "turbo run clean",
+	"clean:cache": "rm -rf .turbo node_modules/.cache",
+	"clean:all": "turbo run clean && rm -rf node_modules .turbo",
+	"clean:dist": "turbo run clean:dist"
   },
   "devDependencies": {
     "prettier": "^3.8.1",
