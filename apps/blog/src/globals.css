@@ -1,8 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "@repo/design-system/css";
+/* @import "@repo/design-system/css"; */
 
 @custom-variant dark (&:is(.dark *));
+/* @custom-variant mobile (@media (max-width: 768px)); */
 
 @theme inline {
 	--radius-sm: calc(var(--radius) - 4px);
