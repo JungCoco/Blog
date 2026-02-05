@@ -3,6 +3,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import react from '@vitejs/plugin-react-swc';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
+
 // design-system.plugin은 일단 제거하고 나중에 재구성
 // import designSystemPlugin from './src/plugin/design-system.plugin';
 
