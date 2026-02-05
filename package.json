@@ -6,6 +6,8 @@
         "dev": "turbo run dev",
         "build": "turbo run build",
         "lint": "turbo run lint",
+        "format": "prettier --write \"**/*.{ts,tsx,js,json,css,md}\"",
+        "format:check": "prettier --check \"**/*.{ts,tsx,js,json,css,md}\"",
         "clean": "turbo run clean",
         "clean:cache": "rm -rf .turbo node_modules/.cache",
         "clean:all": "turbo run clean && rm -rf node_modules .turbo",
