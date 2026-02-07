@@ -9,7 +9,6 @@
 ├── slug  
 ├── parent_id  
 ├── category_name  
-├── included articles [ARRAY]  
 ├── created_At  
 └── updated_At
 
@@ -28,7 +27,6 @@
 ├── created_At  
 └── updated_At  
 
-
 **[TABLE] Post_Stats**  
 ├── id [PK]  
 ├── uuid  
@@ -41,7 +39,6 @@
 ├── last_viewed_at [timestamp]  // 분석할 때, '오늘 조회수 분석'이나 '이번 주 조회수 분석' 등 다방면으로 활용 가능한 컬럼  
 ├── created_At  
 └── updated_At  
-
 
 **[TABLE] Tags**
 ├── id [PK]
