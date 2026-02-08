@@ -1,5 +1,7 @@
 import Navigation from './components/pages/navigation';
 import MainPage from './components/pages/main';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Editor from './features/editor/components/editor';
 
 /**
  * @description 기본 1920 * 1080 화면 기준. 코어 layout은 너비 1024 기준으로 개발.
@@ -9,17 +11,22 @@ import MainPage from './components/pages/main';
 
 function App() {
     return (
-        <div className="flex flex-col min-h-dvh">
-            {/* 공통 네비게이션 바: web 버전일 때는 헤더, 모바일 버전일 때는 바텀 네비게이션*/}
-            <Navigation />
+        <BrowserRouter>
+            <div className="flex flex-col min-h-dvh">
+                {/* 공통 네비게이션 바: web 버전일 때는 헤더, 모바일 버전일 때는 바텀 네비게이션*/}
+                <Navigation />
 
-            <MainPage />
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/editor" element={<Editor />} />
+                </Routes>
 
-            {/* 공통 푸터 */}
-            <footer className="flex items-stretch self-stretch bg-orange-300 w-full pt-[50px] pb-[100px]">
-                <span>Copyright 2026 Jinuk's Blog. All rights reserved.</span>
-            </footer>
-        </div>
+                {/* 공통 푸터 */}
+                <footer className="flex items-stretch self-stretch bg-orange-300 w-full pt-[50px] pb-[100px]">
+                    <span>Copyright 2026 Jinuk's Blog. All rights reserved.</span>
+                </footer>
+            </div>
+        </BrowserRouter>
     );
 }
 

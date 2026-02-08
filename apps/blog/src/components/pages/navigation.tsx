@@ -1,5 +1,5 @@
 import { SearchIcon } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 const NAV_MENU = [
     {
         label: 'Engineering',
@@ -16,6 +16,7 @@ const NAV_MENU = [
 ];
 
 export default function Navigation() {
+    const navigate = useNavigate();
     return (
         <header className="flex items-stretch sticky top-0 px-10 py-2.5 h-15 border-b z-50 bg-white">
             <nav className="flex justify-between max-w-5xl mx-auto w-full">
@@ -46,6 +47,9 @@ export default function Navigation() {
                         className="
                         bg-[#14213D] text-white px-4 py-[6px] rounded-[10px]
                         self-center text-[15px] leading-[24px] hover:bg-primary/90 cursor-pointer"
+                        onClick={() => {
+                            navigate('/editor-test');
+                        }}
                     >
                         관리하기
                     </button>

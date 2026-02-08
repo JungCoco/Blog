@@ -1,11 +1,29 @@
 import type { Editor } from '@tiptap/core';
 import { useEditorState } from '@tiptap/react';
-import { menuBarStateSelector } from './options-state';
+import { editorSelector } from '../core/editor-selector';
+import {
+    Bold,
+    Italic,
+    Strikethrough,
+    Code,
+    List,
+    ListOrdered,
+    Quote,
+    Undo,
+    Redo,
+    Image,
+    SeparatorHorizontal,
+    Code2,
+    AlignLeft,
+    AlignCenter,
+    AlignRight,
+    AlignJustify,
+} from 'lucide-react';
 
-export const EditorOptions = ({ editor }: { editor: Editor }) => {
+export const EditorToolbar = ({ editor }: { editor: Editor }) => {
     const editorState = useEditorState({
         editor,
-        selector: menuBarStateSelector,
+        selector: editorSelector,
     });
 
     if (!editor) {
@@ -26,7 +44,7 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.isBold ? 'is-active' : ''}
                     `}
                 >
-                    Bold
+                    <Bold size={18} />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -39,7 +57,7 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.isItalic ? 'is-active' : ''}
                     `}
                 >
-                    Italic
+                    <Italic size={18} />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().toggleStrike().run()}
@@ -52,7 +70,7 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.isStrike ? 'is-active' : ''}
                     `}
                 >
-                    Strike
+                    <Strikethrough size={18} />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().toggleCode().run()}
@@ -65,44 +83,9 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.isCode ? 'is-active' : ''}
                     `}
                 >
-                    Code
+                    <Code size={18} />
                 </button>
-                <button
-                    onClick={() => editor.chain().focus().unsetAllMarks().run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.canClearMarks ? 'is-active' : ''}
-                    `}
-                >
-                    Clear marks
-                </button>
-                <button
-                    onClick={() => editor.chain().focus().clearNodes().run()}
-                    className={`
-                    flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                    rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                    cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                    whitespace-nowrap bg-white text-black
-                    ${editorState.canClearMarks ? 'is-active' : ''}
-                `}
-                >
-                    Clear nodes
-                </button>
-                <button
-                    onClick={() => editor.chain().focus().setParagraph().run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isParagraph ? 'is-active' : ''}
-                    `}
-                >
-                    Paragraph
-                </button>
+
                 <button
                     onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
                     className={`
@@ -185,7 +168,7 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.isBulletList ? 'is-active' : ''}
                     `}
                 >
-                    Bullet list
+                    <List size={18} />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().toggleOrderedList().run()}
@@ -197,7 +180,7 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.isOrderedList ? 'is-active' : ''}
                     `}
                 >
-                    Ordered list
+                    <ListOrdered size={18} />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().toggleCodeBlock().run()}
@@ -209,8 +192,42 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.isCodeBlock ? 'is-active' : ''}
                     `}
                 >
-                    Code block
+                    <Code2 size={18} />
                 </button>
+                {/* 코드 블록 언어 선택 */}
+                <select
+                    onChange={(e) => {
+                        if (e.target.value) {
+                            editor.chain().focus().setCodeBlock({ language: e.target.value }).run();
+                        }
+                    }}
+                    value={editorState.codeBlockLanguage || ''}
+                    className={`
+                        px-2 py-2 text-sm font-medium rounded-md border border-input 
+                        bg-white text-black cursor-pointer transition-colors
+                        hover:bg-accent hover:text-accent-foreground
+                        ${editorState.isCodeBlock ? '' : 'opacity-50'}
+                    `}
+                    disabled={!editorState.isCodeBlock}
+                >
+                    <option value="">언어 선택</option>
+                    <option value="typescript">TypeScript</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="c">C</option>
+                    <option value="cpp">C++</option>
+                    <option value="csharp">C#</option>
+                    <option value="go">Go</option>
+                    <option value="rust">Rust</option>
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                    <option value="json">JSON</option>
+                    <option value="sql">SQL</option>
+                    <option value="bash">Bash</option>
+                    <option value="yaml">YAML</option>
+                    <option value="markdown">Markdown</option>
+                </select>
                 <button
                     onClick={() => editor.chain().focus().toggleBlockquote().run()}
                     className={`
@@ -221,7 +238,7 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.isBlockquote ? 'is-active' : ''}
                     `}
                 >
-                    Blockquote
+                    <Quote size={18} />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().setHorizontalRule().run()}
@@ -232,18 +249,56 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                     whitespace-nowrap bg-white text-black
                 `}
                 >
-                    Horizontal rule
+                    <SeparatorHorizontal size={18} />
+                </button>
+                {/* 정렬 버튼 */}
+                <button
+                    onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                    className={`
+                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
+                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
+                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
+                        whitespace-nowrap bg-white text-black
+                        ${editorState.isAlignLeft ? 'is-active' : ''}
+                    `}
+                >
+                    <AlignLeft size={18} />
                 </button>
                 <button
-                    onClick={() => editor.chain().focus().setHardBreak().run()}
+                    onClick={() => editor.chain().focus().setTextAlign('center').run()}
                     className={`
-                    flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                    rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                    cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                    whitespace-nowrap bg-white text-black
-                `}
+                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
+                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
+                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
+                        whitespace-nowrap bg-white text-black
+                        ${editorState.isAlignCenter ? 'is-active' : ''}
+                    `}
                 >
-                    Hard break
+                    <AlignCenter size={18} />
+                </button>
+                <button
+                    onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                    className={`
+                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
+                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
+                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
+                        whitespace-nowrap bg-white text-black
+                        ${editorState.isAlignRight ? 'is-active' : ''}
+                    `}
+                >
+                    <AlignRight size={18} />
+                </button>
+                <button
+                    onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+                    className={`
+                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
+                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
+                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
+                        whitespace-nowrap bg-white text-black
+                        ${editorState.isAlignJustify ? 'is-active' : ''}
+                    `}
+                >
+                    <AlignJustify size={18} />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().undo().run()}
@@ -256,7 +311,7 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.canUndo ? 'is-active' : ''}
                     `}
                 >
-                    Undo
+                    <Undo size={18} />
                 </button>
                 <button
                     onClick={() => editor.chain().focus().redo().run()}
@@ -269,7 +324,7 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         ${editorState.canRedo ? 'is-active' : ''}
                     `}
                 >
-                    Redo
+                    <Redo size={18} />
                 </button>
                 <button
                     onClick={() => {
@@ -285,7 +340,7 @@ export const EditorOptions = ({ editor }: { editor: Editor }) => {
                         whitespace-nowrap bg-white text-black
                     `}
                 >
-                    Image
+                    <Image size={18} />
                 </button>
             </div>
         </div>

@@ -2,10 +2,11 @@ import type { Editor } from '@tiptap/core';
 import type { EditorStateSnapshot } from '@tiptap/react';
 
 /**
- * State selector for the MenuBar component.
- * Extracts the relevant editor state for rendering menu buttons.
+ * selector 함수로 필요한 상태만 구독하고, 해당 값이 변경될 때만 리렌더링 됨.
+ * @param ctx - 에디터 상태 스냅샷
+ * @returns 에디터 툴바 상태
  */
-export function menuBarStateSelector(ctx: EditorStateSnapshot<Editor>) {
+export function editorSelector(ctx: EditorStateSnapshot<Editor>) {
     return {
         // Text formatting
         isBold: ctx.editor.isActive('bold') ?? false,
@@ -32,6 +33,13 @@ export function menuBarStateSelector(ctx: EditorStateSnapshot<Editor>) {
         isOrderedList: ctx.editor.isActive('orderedList') ?? false,
         isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
         isBlockquote: ctx.editor.isActive('blockquote') ?? false,
+        codeBlockLanguage: ctx.editor.getAttributes('codeBlock')?.language || null,
+
+        // Text alignment
+        isAlignLeft: ctx.editor.isActive({ textAlign: 'left' }) ?? false,
+        isAlignCenter: ctx.editor.isActive({ textAlign: 'center' }) ?? false,
+        isAlignRight: ctx.editor.isActive({ textAlign: 'right' }) ?? false,
+        isAlignJustify: ctx.editor.isActive({ textAlign: 'justify' }) ?? false,
 
         // History
         canUndo: ctx.editor.can().chain().undo().run() ?? false,
@@ -39,4 +47,4 @@ export function menuBarStateSelector(ctx: EditorStateSnapshot<Editor>) {
     };
 }
 
-export type MenuBarState = ReturnType<typeof menuBarStateSelector>;
+export type EditorState = ReturnType<typeof editorSelector>;
