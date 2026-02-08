@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import { extensions } from '../core/editor-extenstion';
-import { EditorToolbar } from './editor-toolbar';
 import '../core/style.css';
+import { EditorToolbar } from './editor-toolbar';
 // 코드 블록 구문 강조 테마 (VS Code Dark)
 import 'highlight.js/styles/vs2015.css';
 

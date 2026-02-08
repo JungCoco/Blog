@@ -1,7 +1,6 @@
 import Navigation from './components/pages/navigation';
 import MainPage from './components/pages/main';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Editor from './features/editor/components/editor';
 
 /**
  * @description 기본 1920 * 1080 화면 기준. 코어 layout은 너비 1024 기준으로 개발.
@@ -18,7 +17,6 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<MainPage />} />
-                    <Route path="/editor" element={<Editor />} />
                 </Routes>
 
                 {/* 공통 푸터 */}

@@ -1,4 +1,4 @@
-import { RECENT_POST } from '../../lib/ex-recent-post';
+import { RECENT_POST } from '@/lib/ex-recent-post';
 
 export default function MainPage() {
     return (
