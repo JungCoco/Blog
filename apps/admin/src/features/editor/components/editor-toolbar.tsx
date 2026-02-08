@@ -12,13 +12,53 @@ import {
     Undo,
     Redo,
     Image,
-    SeparatorHorizontal,
     Code2,
     AlignLeft,
     AlignCenter,
     AlignRight,
     AlignJustify,
+    Palette,
 } from 'lucide-react';
+
+// 색상 팔레트 (디자인 룰 기반 + 기본 색상)
+const COLOR_PALETTE = [
+    { name: '기본', value: '#1F2937' },
+    { name: '빨강', value: '#EF4444' },
+    { name: '주황', value: '#F97316' },
+    { name: '노랑', value: '#EAB308' },
+    { name: '초록', value: '#22C55E' },
+    { name: '파랑', value: '#3B82F6' },
+    { name: '보라', value: '#8B5CF6' },
+    { name: '회색', value: '#64748B' },
+];
+
+const Separator = () => <div className="w-px h-6 bg-gray-300 mx-1 self-center" />;
+
+const ToolbarButton = ({
+    onClick,
+    disabled,
+    isActive,
+    children,
+}: {
+    onClick: () => void;
+    disabled?: boolean;
+    isActive?: boolean;
+    children: React.ReactNode;
+}) => (
+    <button
+        onClick={onClick}
+        disabled={disabled}
+        className={`
+            flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
+            rounded-[8px] border border-gray-200 hover:bg-gray-100
+            cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
+            whitespace-nowrap bg-white text-[#1F2937]
+            ${isActive ? 'bg-gray-200' : ''}
+        `}
+    >
+        {children}
+    </button>
+);
 
 export const EditorToolbar = ({ editor }: { editor: Editor }) => {
     const editorState = useEditorState({
@@ -31,317 +71,182 @@ export const EditorToolbar = ({ editor }: { editor: Editor }) => {
     }
 
     return (
-        <div className="flex bg-gray-50 rounded-lg p-2">
-            <div className="flex flex-wrap gap-1">
-                <button
+        <div className="flex max-w-[1024px] mx-auto w-full bg-[#F3F6FA] rounded-[8px] p-2">
+            <div className="flex flex-wrap gap-1 items-center">
+                {/* 텍스트 서식: Bold, Italic, Strike, Code */}
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleBold().run()}
                     disabled={!editorState.canBold}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isBold ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isBold}
                 >
                     <Bold size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                     disabled={!editorState.canItalic}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isItalic ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isItalic}
                 >
                     <Italic size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleStrike().run()}
                     disabled={!editorState.canStrike}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isStrike ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isStrike}
                 >
                     <Strikethrough size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleCode().run()}
                     disabled={!editorState.canCode}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isCode ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isCode}
                 >
                     <Code size={18} />
-                </button>
+                </ToolbarButton>
 
-                <button
+                {/* 텍스트 색상 */}
+                <div className="relative group">
+                    <button
+                        className="flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
+                            rounded-[8px] border border-gray-200 hover:bg-gray-100
+                            cursor-pointer transition-colors bg-white text-[#1F2937]"
+                    >
+                        <Palette size={18} />
+                    </button>
+                    <div className="absolute top-full left-0 mt-1 hidden group-hover:flex flex-wrap gap-1 p-2 bg-white rounded-[8px] shadow-lg border border-gray-200 w-[140px] z-10">
+                        {COLOR_PALETTE.map((color) => (
+                            <button
+                                key={color.value}
+                                onClick={() => editor.chain().focus().setColor(color.value).run()}
+                                className="w-6 h-6 rounded-[4px] border border-gray-200 hover:scale-110 transition-transform"
+                                style={{ backgroundColor: color.value }}
+                                title={color.name}
+                            />
+                        ))}
+                        <button
+                            onClick={() => editor.chain().focus().unsetColor().run()}
+                            className="w-full mt-1 px-2 py-1 text-xs text-gray-500 hover:bg-gray-100 rounded-[4px]"
+                        >
+                            색상 제거
+                        </button>
+                    </div>
+                </div>
+
+                <Separator />
+
+                {/* 제목: H1 ~ H4 */}
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isHeading1 ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isHeading1}
                 >
                     H1
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isHeading2 ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isHeading2}
                 >
                     H2
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isHeading3 ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isHeading3}
                 >
                     H3
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isHeading4 ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isHeading4}
                 >
                     H4
-                </button>
-                <button
-                    onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isHeading5 ? 'is-active' : ''}
-                    `}
-                >
-                    H5
-                </button>
-                <button
-                    onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isHeading6 ? 'is-active' : ''}
-                    `}
-                >
-                    H6
-                </button>
-                <button
+                </ToolbarButton>
+
+                <Separator />
+
+                {/* 리스트 & 블록: BulletList, OrderedList, CodeBlock, Blockquote, HR */}
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleBulletList().run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isBulletList ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isBulletList}
                 >
                     <List size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isOrderedList ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isOrderedList}
                 >
                     <ListOrdered size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isCodeBlock ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isCodeBlock}
                 >
                     <Code2 size={18} />
-                </button>
-                {/* 코드 블록 언어 선택 */}
-                <select
-                    onChange={(e) => {
-                        if (e.target.value) {
-                            editor.chain().focus().setCodeBlock({ language: e.target.value }).run();
-                        }
-                    }}
-                    value={editorState.codeBlockLanguage || ''}
-                    className={`
-                        px-2 py-2 text-sm font-medium rounded-md border border-input 
-                        bg-white text-black cursor-pointer transition-colors
-                        hover:bg-accent hover:text-accent-foreground
-                        ${editorState.isCodeBlock ? '' : 'opacity-50'}
-                    `}
-                    disabled={!editorState.isCodeBlock}
-                >
-                    <option value="">언어 선택</option>
-                    <option value="typescript">TypeScript</option>
-                    <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="java">Java</option>
-                    <option value="c">C</option>
-                    <option value="cpp">C++</option>
-                    <option value="csharp">C#</option>
-                    <option value="go">Go</option>
-                    <option value="rust">Rust</option>
-                    <option value="html">HTML</option>
-                    <option value="css">CSS</option>
-                    <option value="json">JSON</option>
-                    <option value="sql">SQL</option>
-                    <option value="bash">Bash</option>
-                    <option value="yaml">YAML</option>
-                    <option value="markdown">Markdown</option>
-                </select>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isBlockquote ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isBlockquote}
                 >
                     <Quote size={18} />
-                </button>
-                <button
-                    onClick={() => editor.chain().focus().setHorizontalRule().run()}
-                    className={`
-                    flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                    rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                    cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                    whitespace-nowrap bg-white text-black
-                `}
-                >
+                </ToolbarButton>
+                {/* <ToolbarButton onClick={() => editor.chain().focus().setHorizontalRule().run()}>
                     <SeparatorHorizontal size={18} />
-                </button>
-                {/* 정렬 버튼 */}
-                <button
+                </ToolbarButton> */}
+
+                <Separator />
+
+                {/* 정렬: Left, Center, Right, Justify */}
+                <ToolbarButton
                     onClick={() => editor.chain().focus().setTextAlign('left').run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isAlignLeft ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isAlignLeft}
                 >
                     <AlignLeft size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().setTextAlign('center').run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isAlignCenter ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isAlignCenter}
                 >
                     <AlignCenter size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().setTextAlign('right').run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isAlignRight ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isAlignRight}
                 >
                     <AlignRight size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.isAlignJustify ? 'is-active' : ''}
-                    `}
+                    isActive={editorState.isAlignJustify}
                 >
                     <AlignJustify size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+
+                <Separator />
+
+                {/* 히스토리: Undo, Redo */}
+                <ToolbarButton
                     onClick={() => editor.chain().focus().undo().run()}
                     disabled={!editorState.canUndo}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.canUndo ? 'is-active' : ''}
-                    `}
                 >
                     <Undo size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+                <ToolbarButton
                     onClick={() => editor.chain().focus().redo().run()}
                     disabled={!editorState.canRedo}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                        ${editorState.canRedo ? 'is-active' : ''}
-                    `}
                 >
                     <Redo size={18} />
-                </button>
-                <button
+                </ToolbarButton>
+
+                <Separator />
+
+                {/* 미디어: Image */}
+                <ToolbarButton
                     onClick={() => {
                         const url = window.prompt('이미지 URL을 입력하세요:');
                         if (url) {
                             editor.chain().focus().setImage({ src: url }).run();
                         }
                     }}
-                    className={`
-                        flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium 
-                        rounded-md border border-input hover:bg-accent hover:text-accent-foreground 
-                        cursor-pointer transition-colors disabled:pointer-events-none disabled:opacity-50 
-                        whitespace-nowrap bg-white text-black
-                    `}
                 >
                     <Image size={18} />
-                </button>
+                </ToolbarButton>
             </div>
         </div>
     );

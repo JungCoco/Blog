@@ -7,6 +7,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import CodeBlock from '@tiptap/extension-code-block';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { common, createLowlight } from 'lowlight';
+import { Color } from '@tiptap/extension-color';
 
 const lowlight = createLowlight(common);
 
@@ -16,6 +17,9 @@ const lowlight = createLowlight(common);
 export const extensions = [
     // 텍스트 스타일 확장 (색상, 폰트 크기, 폰트 패밀리 등)
     TextStyleKit,
+
+    // 텍스트 색상 변경
+    Color,
 
     // 기본 확장 모음 (Bold, Italic, Strike, Code, Heading, BulletList, OrderedList, Blockquote, CodeBlock, HorizontalRule, HardBreak, History 등)
     StarterKit,
