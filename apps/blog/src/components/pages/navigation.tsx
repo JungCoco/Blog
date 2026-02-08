@@ -20,11 +20,9 @@ export default function Navigation() {
     return (
         <header className="flex items-stretch sticky top-0 px-10 py-2.5 h-15 border-b z-50 bg-white">
             <nav className="flex justify-between max-w-5xl mx-auto w-full">
-                {/* 로고 + 블로그 이름: 나중에는 두 개가 한 번에 이미지로 로드되도록 */}
-                <div className="flex gap-1.5 items-center pb-0.5">
-                    {/* 로고 이미지 예시 */}
-                    <span className="bg-gray-200 rounded-full w-12 h-7"></span>
-                    {/* 블로그 이름 */}
+                {/* 로고 + 블로그 이름 */}
+                <div className="flex items-center pb-0.5">
+                    <img src="/images/logo.png" alt="Logo" className="h-14 object-contain" />
                     <h3 className="flex font-semibold">Jinuk's Blog</h3>
                 </div>
 
