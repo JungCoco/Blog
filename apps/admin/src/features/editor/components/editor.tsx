@@ -1,30 +1,19 @@
 import { useState } from 'react';
-import { EditorContent, useEditor } from '@tiptap/react';
-import { extensions } from '../core/editor-extenstion';
+import { EditorContent } from '@tiptap/react';
 import '../core/style.css';
-import { EditorToolbar } from './editor-toolbar';
+import { EditorToolbar } from './tool-bar';
 // 코드 블록 구문 강조 테마 (VS Code Dark)
 import 'highlight.js/styles/vs2015.css';
+import { editor } from '../core/editor-instance'
 
 export default function Editor() {
     // 제목, 요약문은 에디터 내에서만 사용되는 상태이므로 로컬 상태로 관리
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    // 에디터 인스턴스 생성
-    const editor = useEditor({
-        extensions: extensions,
-        content: '',
-        // 에디터 컨테이너 스타일 적용
-        editorProps: {
-            attributes: {
-                class: 'min-h-[580px] outline-none',
-            },
-        },
-    });
-
     return (
         <div className="flex flex-col gap-1.5 max-w-[1024px] mx-auto w-full px-5 py-10">
+            
             {/* 본문 에디터 */}
             <div className="flex flex-col gap-1.5">
                 <EditorToolbar editor={editor} />

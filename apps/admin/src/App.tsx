@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import Editor from './features/editor/components/editor';
 import Dashboard from './pages/dashboard';
 import Navigation from './components/navigation';
+import Write from './pages/write';
+
 
 function App() {
     return (
@@ -10,7 +11,7 @@ function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
-                    <Route path="/editor" element={<Editor />} />
+                    <Route path="/write" element={<Write />} />
                 </Routes>
             </main>
         </div>
