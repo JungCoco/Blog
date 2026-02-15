@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import type { Editor } from '@tiptap/core';
 import { useEditorState } from '@tiptap/react';
 import { editorSelector } from '../core/editor-selector';
+import { supabase } from '@/lib/supabase';
 import {
     Bold,
     Italic,
@@ -18,6 +20,7 @@ import {
     AlignRight,
     AlignJustify,
     Palette,
+    Loader2,
 } from 'lucide-react';
 
 // 색상 팔레트 (디자인 룰 기반 + 기본 색상)
@@ -61,6 +64,8 @@ const ToolbarButton = ({
 );
 
 export const EditorToolbar = ({ editor }: { editor: Editor }) => {
+    const [isUploading, setIsUploading] = useState(false);
+
     const editorState = useEditorState({
         editor,
         selector: editorSelector,
@@ -69,6 +74,52 @@ export const EditorToolbar = ({ editor }: { editor: Editor }) => {
     if (!editor) {
         return null;
     }
+
+    const handleImageUpload = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (!file) return;
+
+            setIsUploading(true);
+
+            try {
+                const bucketName = import.meta.env.VITE_SUPABASE_STORAGE_BUCKET;
+                const fileName = `${Date.now()}-${file.name}`;
+
+                const { data, error } = await supabase.storage
+                    .from(bucketName)
+                    .upload(fileName, file);
+
+                if (error) {
+                    console.error('업로드 실패:', error);
+                    alert(`이미지 업로드 실패: ${error.message}`);
+                    return;
+                }
+
+                // 비공개 버킷: Signed URL 생성 (1년 유효)
+                const { data: urlData, error: urlError } = await supabase.storage
+                    .from(bucketName)
+                    .createSignedUrl(data.path, 60 * 60 * 24 * 365);
+
+                if (urlError || !urlData?.signedUrl) {
+                    console.error('URL 생성 실패:', urlError);
+                    alert('이미지 URL 생성에 실패했습니다.');
+                    return;
+                }
+
+                editor.chain().focus().setImage({ src: urlData.signedUrl }).run();
+            } catch (err) {
+                console.error('업로드 중 오류:', err);
+                alert('이미지 업로드 중 오류가 발생했습니다.');
+            } finally {
+                setIsUploading(false);
+            }
+        };
+        input.click();
+    };
 
     return (
         <div className="flex max-w-[1024px] mx-auto w-full bg-[#F3F6FA] rounded-[8px] p-2">
@@ -112,7 +163,7 @@ export const EditorToolbar = ({ editor }: { editor: Editor }) => {
                     >
                         <Palette size={18} />
                     </button>
-                    <div className="absolute top-full left-0 mt-1 hidden group-hover:flex flex-wrap gap-1 p-2 bg-white rounded-[8px] shadow-lg border border-gray-200 w-[140px] z-10">
+                    <div className="absolute top-full left-0 hidden group-hover:flex flex-wrap gap-1 p-2 bg-white rounded-[8px] shadow-lg border border-gray-200 w-[140px] z-10">
                         {COLOR_PALETTE.map((color) => (
                             <button
                                 key={color.value}
@@ -237,15 +288,12 @@ export const EditorToolbar = ({ editor }: { editor: Editor }) => {
                 <Separator />
 
                 {/* 미디어: Image */}
-                <ToolbarButton
-                    onClick={() => {
-                        const url = window.prompt('이미지 URL을 입력하세요:');
-                        if (url) {
-                            editor.chain().focus().setImage({ src: url }).run();
-                        }
-                    }}
-                >
-                    <Image size={18} />
+                <ToolbarButton onClick={handleImageUpload} disabled={isUploading}>
+                    {isUploading ? (
+                        <Loader2 size={18} className="animate-spin" />
+                    ) : (
+                        <Image size={18} />
+                    )}
                 </ToolbarButton>
             </div>
         </div>
