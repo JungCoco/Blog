@@ -23,6 +23,7 @@ export default function Navigation() {
     if (location.pathname === '/write') {
         return null;
     }
+
     return (
         <header className="flex items-stretch sticky top-0 px-10 py-2.5 h-15 border-b z-50 bg-white">
             <nav className="flex justify-between max-w-5xl mx-auto w-full">

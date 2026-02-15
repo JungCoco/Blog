@@ -3,7 +3,6 @@ import Dashboard from './pages/dashboard';
 import Navigation from './components/navigation';
 import Write from './pages/write';
 
-
 function App() {
     return (
         <div className="min-h-screen bg-gray-50">

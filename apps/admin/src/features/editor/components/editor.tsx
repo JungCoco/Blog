@@ -4,16 +4,16 @@ import '../core/style.css';
 import { EditorToolbar } from './tool-bar';
 // 코드 블록 구문 강조 테마 (VS Code Dark)
 import 'highlight.js/styles/vs2015.css';
-import { editor } from '../core/editor-instance'
+import { useEditorInstance } from '../core/editor-instance';
 
 export default function Editor() {
     // 제목, 요약문은 에디터 내에서만 사용되는 상태이므로 로컬 상태로 관리
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const editor = useEditorInstance();
 
     return (
         <div className="flex flex-col gap-1.5 max-w-[1024px] mx-auto w-full px-5 py-10">
-            
             {/* 본문 에디터 */}
             <div className="flex flex-col gap-1.5">
                 <EditorToolbar editor={editor} />
