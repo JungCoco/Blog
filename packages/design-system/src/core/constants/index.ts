@@ -11,3 +11,4 @@ export {
     type Stroke,
     type LineHeight,
 } from './dimension';
+export { family, type Family } from './family';
