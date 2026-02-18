@@ -56,6 +56,7 @@ export default function PostDetail() {
                 setPost(data);
                 // Tiptap JSON을 HTML로 변환
                 const html = generateHTML(data.content, extensions);
+                console.log(html);
                 setHtmlContent(html);
             }
             setLoading(false);
@@ -108,10 +109,7 @@ export default function PostDetail() {
 
             {/* 목록으로 돌아가기 */}
             <div className="mt-12 pt-8 border-t border-gray-200">
-                <Link
-                    to="/posts"
-                    className="text-gray-500 hover:text-gray-700 transition-colors"
-                >
+                <Link to="/posts" className="text-gray-500 hover:text-gray-700 transition-colors">
                     ← 목록으로 돌아가기
                 </Link>
             </div>
