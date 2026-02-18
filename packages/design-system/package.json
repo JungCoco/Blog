@@ -1,21 +1,25 @@
 {
-  "name": "@repo/design-system",
-  "version": "0.0.1",
-  "private": true,
-  "type": "module",
-  "exports": {
-	"./tokens": "./src/tokens/index.ts",
-	"./css": "./src/css/generated-theme.css",
-	"./script": "./src/script/generate-css.ts"
-  },
-  "scripts": {
-	"dev": "tsx watch src/script/generate-css.ts",
-	"build": "tsx src/script/generate-css.ts",
-	"clean": "rm -rf src/css/generated-theme.css dist .turbo"
-  },
-  "devDependencies": {
-	"@types/node": "^24.10.1",
-	"tsx": "^4.21.0",
-	"typescript": "~5.9.3"
-  }
+    "name": "@repo/design-system",
+    "version": "0.0.1",
+    "private": true,
+    "type": "module",
+    "exports": {
+        "./constants": "./src/core/constants/index.ts",
+        "./foundation": "./src/core/foundation/index.ts",
+        "./components/layout": "./src/core/components/layout/index.ts"
+    },
+    "scripts": {
+        "dev": "tsx watch src/script/generate-css.ts",
+        "build": "tsx src/script/generate-css.ts",
+        "clean": "rm -rf src/css/generated-theme.css dist .turbo"
+    },
+    "peerDependencies": {
+        "react": "^19.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "^24.10.1",
+        "@types/react": "^19.0.0",
+        "tsx": "^4.21.0",
+        "typescript": "~5.9.3"
+    }
 }
