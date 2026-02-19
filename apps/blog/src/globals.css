@@ -124,3 +124,197 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* Article: 글 본문 스타일 */
+.article h1 {
+    font-size: 3rem; /* 48px */
+    font-weight: 700;
+    line-height: 1.2;
+    color: #14213d;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.article h2 {
+    font-size: 1.875rem; /* 30px */
+    font-weight: 700;
+    line-height: 1.2;
+    color: #4a5f8c;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.article h3 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 600;
+    line-height: 1.4;
+    color: #1f2937;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #1f2937;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.article p {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.article a {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
+.article a:hover {
+    opacity: 0.8;
+}
+
+.article strong {
+    font-weight: 600;
+    color: #111827;
+}
+
+.article em {
+    font-style: italic;
+}
+
+.article blockquote {
+    border-left: 4px solid #c4cfdf;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #4b5563;
+    font-style: italic;
+    background-color: #f9fafb;
+}
+
+/* 인라인 코드 - Apple Style */
+.article code {
+    font-size: 0.875rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, Monaco, monospace;
+    background-color: #f5f5f7;
+    color: #1d1d1f;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* 코드 블록 - macOS Window Style */
+.article pre {
+    position: relative;
+    font-size: 0.875rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, Monaco, monospace;
+    background-color: #1d1d1f;
+    color: #f5f5f7;
+    padding: 3rem 1.5rem 1.25rem;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    line-height: 1.6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* macOS 윈도우 헤더 */
+.article pre::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2.5rem;
+    background-color: #2d2d2f;
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid #3d3d3f;
+}
+
+/* macOS 트래픽 라이트 버튼 */
+.article pre::after {
+    content: '';
+    position: absolute;
+    top: 0.875rem;
+    left: 1rem;
+    width: 12px;
+    height: 12px;
+    background-color: #ff5f57;
+    border-radius: 50%;
+    box-shadow:
+        20px 0 0 #ffbd2e,
+        40px 0 0 #28ca41;
+}
+
+.article pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    font-weight: 400;
+    border-radius: 0;
+}
+
+.article ul {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+}
+
+.article ol {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    list-style-type: decimal;
+}
+
+.article li {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.article hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.article img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.article table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.article th {
+    background-color: #f3f4f6;
+    font-weight: 600;
+    padding: 0.75rem;
+    border-bottom: 2px solid #d1d5db;
+    text-align: left;
+}
+
+.article td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+}

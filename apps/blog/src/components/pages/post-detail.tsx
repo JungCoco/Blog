@@ -8,6 +8,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { common, createLowlight } from 'lowlight';
 import 'highlight.js/styles/vs2015.css';
+import { Container, Stack, Center } from '@repo/design-system/components/layout';
 
 const lowlight = createLowlight(common);
 
@@ -67,31 +68,31 @@ export default function PostDetail() {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-[400px]">
+            <Center minHeight={400}>
                 <span className="text-gray-500">로딩 중...</span>
-            </div>
+            </Center>
         );
     }
 
     if (!post) {
         return (
-            <div className="flex flex-col justify-center items-center min-h-[400px] gap-4">
-                <span className="text-gray-500">글을 찾을 수 없습니다.</span>
-                <Link to="/posts" className="text-blue-500 hover:underline">
-                    목록으로 돌아가기
-                </Link>
-            </div>
+            <Center minHeight={400}>
+                <Stack gap={16} align="center">
+                    <span className="text-gray-500">글을 찾을 수 없습니다.</span>
+                    <Link to="/posts" className="text-blue-500 hover:underline">
+                        목록으로 돌아가기
+                    </Link>
+                </Stack>
+            </Center>
         );
     }
 
     return (
-        <article className="max-w-[1024px] mx-auto w-full px-5 py-10">
+        <Container as="article" py={40}>
             {/* 헤더 */}
-            <header className="mb-8 pb-8 border-b border-gray-200">
-                <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-                {post.description && (
-                    <p className="text-xl text-gray-600 mb-4">{post.description}</p>
-                )}
+            <Stack gap={16} className="mb-8 pb-8 border-b border-gray-200">
+                <h1 className="text-4xl font-bold">{post.title}</h1>
+                {post.description && <p className="text-xl text-gray-600">{post.description}</p>}
                 <span className="text-sm text-gray-400">
                     {new Date(post.created_at).toLocaleDateString('ko-KR', {
                         year: 'numeric',
@@ -99,13 +100,10 @@ export default function PostDetail() {
                         day: 'numeric',
                     })}
                 </span>
-            </header>
+            </Stack>
 
             {/* 본문 */}
-            <div
-                className="prose prose-lg max-w-none"
-                dangerouslySetInnerHTML={{ __html: htmlContent }}
-            />
+            <div className="article" dangerouslySetInnerHTML={{ __html: htmlContent }} />
 
             {/* 목록으로 돌아가기 */}
             <div className="mt-12 pt-8 border-t border-gray-200">
@@ -113,6 +111,6 @@ export default function PostDetail() {
                     ← 목록으로 돌아가기
                 </Link>
             </div>
-        </article>
+        </Container>
     );
 }
