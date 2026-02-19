@@ -292,11 +292,11 @@
 }
 
 .article img {
+    display: block;
     max-width: 100%;
     height: auto;
     border-radius: 0.5rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin: 1.5rem auto;
 }
 
 .article table {
