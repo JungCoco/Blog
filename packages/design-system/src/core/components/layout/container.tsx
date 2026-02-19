@@ -33,11 +33,11 @@ interface ContainerProps {
  */
 export function Container({
     children,
-    maxWidth = 1148,
+    maxWidth = 1024,
     px = 60,
-    py,
-    pt = 40,
-    pb = 160,
+    py = 80,
+    pt = 120,
+    pb,
     className = '',
     as: Tag = 'div',
 }: ContainerProps) {
