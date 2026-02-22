@@ -2,6 +2,8 @@ import Navigation from './components/pages/navigation';
 import MainPage from './components/pages/main';
 import Posts from './components/pages/posts';
 import PostDetail from './components/pages/post-detail';
+import Engineering from './components/pages/engineering';
+import Product from './components/pages/product';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 /**
@@ -19,6 +21,10 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<MainPage />} />
+                    <Route path="/engineering" element={<Engineering />} />
+                    <Route path="/engineering/:slug" element={<PostDetail />} />
+                    <Route path="/product" element={<Product />} />
+                    <Route path="/product/:slug" element={<PostDetail />} />
                     <Route path="/posts" element={<Posts />} />
                     <Route path="/posts/:slug" element={<PostDetail />} />
                 </Routes>

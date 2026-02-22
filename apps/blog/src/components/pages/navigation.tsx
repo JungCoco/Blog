@@ -1,17 +1,13 @@
 import { SearchIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const NAV_MENU = [
     {
         label: 'Engineering',
         href: '/engineering',
     },
     {
-        label: 'Design System',
-        href: '/design-system',
-    },
-    {
-        label: 'Gomin',
-        href: '/gomin',
+        label: 'Product',
+        href: '/product',
     },
 ];
 
@@ -21,10 +17,10 @@ export default function Navigation() {
         <header className="flex items-stretch sticky top-0 px-5 py-2 h-14 border-b z-50 bg-white">
             <nav className="flex justify-between max-w-[960px] mx-auto w-full">
                 {/* 로고 + 블로그 이름 */}
-                <div className="flex items-center gap-2">
+                <Link to="/" className="flex items-center gap-2">
                     <img src="/images/logo.png" alt="Logo" className="h-12 object-contain" />
                     <span className="font-semibold text-[14px] text-[#0B1F3B]">Jinuk's Blog</span>
-                </div>
+                </Link>
 
                 {/* 네비게이션 메뉴 + 버튼 */}
                 <menu className="flex gap-1">
@@ -33,6 +29,7 @@ export default function Navigation() {
                             className="self-center text-[#1F2937] hover:bg-[#1F2937]/10 cursor-pointer rounded-lg
                                 text-[14px] leading-[22px] font-medium transition-colors px-3 py-1.5"
                             key={menu.label}
+                            onClick={() => navigate(menu.href)}
                         >
                             {menu.label}
                         </button>
