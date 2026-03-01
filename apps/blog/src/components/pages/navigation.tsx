@@ -1,22 +1,32 @@
+import { useEffect, useState } from 'react';
 import { SearchIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-const NAV_MENU = [
-    {
-        label: 'Development',
-        href: '/development',
-    },
-    {
-        label: 'Craft',
-        href: '/craft',
-    },
-    {
-        label: 'Retrospect',
-        href: '/retrospect',
-    },
-];
+import { supabase } from '@/lib/supabase';
+
+interface NavCategory {
+    id: number;
+    category_name: string;
+    slug: string;
+}
 
 export default function Navigation() {
     const navigate = useNavigate();
+    const [categories, setCategories] = useState<NavCategory[]>([]);
+
+    useEffect(() => {
+        async function fetchCategories() {
+            const { data } = await supabase
+                .from('categories')
+                .select('id, category_name, slug')
+                .is('parent_id', null)
+                .eq('is_active', true)
+                .order('created_at', { ascending: true });
+
+            if (data) setCategories(data);
+        }
+        fetchCategories();
+    }, []);
+
     return (
         <header className="flex items-stretch sticky top-0 px-5 py-2 h-14 border-b z-50 bg-white">
             <nav className="flex justify-between max-w-[960px] mx-auto w-full">
@@ -28,14 +38,14 @@ export default function Navigation() {
 
                 {/* 네비게이션 메뉴 + 버튼 */}
                 <menu className="flex gap-1">
-                    {NAV_MENU.map((menu) => (
+                    {categories.map((cat) => (
                         <button
                             className="self-center text-[#1F2937] hover:bg-[#1F2937]/10 cursor-pointer rounded-lg
                                 text-[14px] leading-[22px] font-medium transition-colors px-3 py-1.5"
-                            key={menu.label}
-                            onClick={() => navigate(menu.href)}
+                            key={cat.id}
+                            onClick={() => navigate(`/${cat.slug}`)}
                         >
-                            {menu.label}
+                            {cat.category_name}
                         </button>
                     ))}
 
@@ -46,12 +56,6 @@ export default function Navigation() {
                     >
                         관리하기
                     </button>
-                    {/* <button
-                        className="bg-gray-100 text-[#1F2937] px-3 py-1.5 rounded-lg
-                            self-center text-[14px] leading-[22px] hover:bg-[#1F2937]/10 cursor-pointer transition-colors"
-                    >
-                        연락하기
-                    </button> */}
                     <button className="self-center text-[#1F2937] hover:bg-[#1F2937]/10 cursor-pointer p-1.5 rounded-lg transition-colors">
                         <SearchIcon className="w-4 h-4" />
                     </button>

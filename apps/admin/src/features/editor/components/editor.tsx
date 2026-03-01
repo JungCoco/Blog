@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { EditorContent } from '@tiptap/react';
 import '../core/style.css';
 import { EditorToolbar } from './tool-bar';
@@ -6,6 +6,7 @@ import { EditorToolbar } from './tool-bar';
 import 'highlight.js/styles/vs2015.css';
 import { useEditorInstance } from '../core/editor-instance';
 import { supabase } from '@/lib/supabase';
+import { type Category, fetchCategories } from '@/lib/categories';
 
 export default function Editor() {
     // 제목, 요약문은 에디터 내에서만 사용되는 상태이므로 로컬 상태로 관리
@@ -14,9 +15,38 @@ export default function Editor() {
     const [isSaving, setIsSaving] = useState(false);
     const editor = useEditorInstance();
 
+    // 카테고리 상태
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [selectedParentId, setSelectedParentId] = useState<number | null>(null);
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+
+    const parentCategories = useMemo(
+        () => categories.filter((c) => c.parent_id === null),
+        [categories],
+    );
+
+    const subCategories = useMemo(
+        () =>
+            selectedParentId
+                ? categories.filter((c) => c.parent_id === selectedParentId)
+                : [],
+        [categories, selectedParentId],
+    );
+
+    useEffect(() => {
+        fetchCategories()
+            .then(setCategories)
+            .catch((err) => console.error('카테고리 불러오기 실패:', err));
+    }, []);
+
     async function handleSave() {
         if (!editor || !title.trim()) {
             alert('제목을 입력해주세요.');
+            return;
+        }
+
+        if (!selectedCategoryId) {
+            alert('카테고리를 선택해주세요.');
             return;
         }
 
@@ -35,7 +65,7 @@ export default function Editor() {
                 .from('posts')
                 .insert({
                     title,
-                    category_id: 1,
+                    category_id: selectedCategoryId,
                     slug: `${slug}-${Date.now()}`, // 중복 방지를 위해 timestamp 추가
                     description,
                     content: editor.getJSON(),
@@ -60,6 +90,43 @@ export default function Editor() {
 
     return (
         <div className="flex flex-col gap-1.5 max-w-[1024px] mx-auto w-full px-5 py-10">
+            {/* 카테고리 선택 */}
+            <div className="flex items-center gap-3">
+                <select
+                    className="px-3 py-2 text-sm border border-gray-200 rounded-[8px] bg-white focus:outline-none focus:border-[#14213D] min-w-[160px]"
+                    value={selectedParentId ?? ''}
+                    onChange={(e) => {
+                        const parentId = e.target.value ? Number(e.target.value) : null;
+                        setSelectedParentId(parentId);
+                        setSelectedCategoryId(null);
+                    }}
+                >
+                    <option value="">대분류 선택</option>
+                    {parentCategories.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                            {cat.category_name}
+                        </option>
+                    ))}
+                </select>
+
+                {selectedParentId && (
+                    <select
+                        className="px-3 py-2 text-sm border border-gray-200 rounded-[8px] bg-white focus:outline-none focus:border-[#14213D] min-w-[160px]"
+                        value={selectedCategoryId ?? ''}
+                        onChange={(e) => {
+                            setSelectedCategoryId(e.target.value ? Number(e.target.value) : null);
+                        }}
+                    >
+                        <option value="">중분류 선택</option>
+                        {subCategories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                                {cat.category_name}
+                            </option>
+                        ))}
+                    </select>
+                )}
+            </div>
+
             {/* 본문 에디터 */}
             <div className="flex flex-col gap-1.5 mt-4">
                 <EditorToolbar editor={editor} />

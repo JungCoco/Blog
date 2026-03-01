@@ -4,7 +4,11 @@ import { SearchIcon } from 'lucide-react';
 const NAV_MENU = [
     {
         label: 'Dashboard',
-        href: '/dashboard',
+        href: '/',
+    },
+    {
+        label: 'Categories',
+        href: '/categories',
     },
     {
         label: 'Posts',
