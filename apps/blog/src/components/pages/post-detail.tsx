@@ -8,7 +8,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { common, createLowlight } from 'lowlight';
 import 'highlight.js/styles/vs2015.css';
-import { Container, Stack, Center } from '@repo/design-system/components/layout';
+import { Container, Stack } from '@repo/design-system/components/layout';
 
 const lowlight = createLowlight(common);
 
@@ -64,27 +64,14 @@ export default function PostDetail() {
         fetchPost();
     }, [slug]);
 
-    if (!post) {
-        return (
-            <Center minHeight={400}>
-                <Stack gap={16} align="center">
-                    <span className="text-gray-500">글을 찾을 수 없습니다.</span>
-                    <Link to="/posts" className="text-blue-500 hover:underline">
-                        목록으로 돌아가기
-                    </Link>
-                </Stack>
-            </Center>
-        );
-    }
-
     return (
         <Container as="article" py={40} px={180}>
             {/* 헤더 */}
             <Stack gap={16} className="mb-8 pb-8 border-b border-gray-200">
-                <h1 className="text-4xl font-bold">{post.title}</h1>
-                {post.description && <p className="text-xl text-gray-600">{post.description}</p>}
+                <h1 className="text-4xl font-bold">{post?.title}</h1>
+                {post?.description && <p className="text-xl text-gray-600">{post?.description}</p>}
                 <span className="text-sm text-gray-400">
-                    {new Date(post.created_at).toLocaleDateString('ko-KR', {
+                    {new Date(post?.created_at || '').toLocaleDateString('ko-KR', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',
@@ -96,11 +83,11 @@ export default function PostDetail() {
             <div className="article" dangerouslySetInnerHTML={{ __html: htmlContent }} />
 
             {/* 목록으로 돌아가기 */}
-            <div className="mt-12 pt-8 border-t border-gray-200">
+            {/* <div className="mt-12 pt-8 border-t border-gray-200">
                 <Link to="/posts" className="text-gray-500 hover:text-gray-700 transition-colors">
                     ← 목록으로 돌아가기
                 </Link>
-            </div>
+            </div> */}
         </Container>
     );
 }

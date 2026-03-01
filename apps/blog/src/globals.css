@@ -120,9 +120,34 @@
     * {
         @apply border-border outline-ring/50;
     }
+    html,
+    body {
+        overflow: hidden;
+        height: 100%;
+    }
     body {
         @apply bg-background text-foreground;
     }
+}
+
+/* 오버레이 스크롤바 */
+.overflow-y-auto {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+.overflow-y-auto:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+.overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+    background: transparent;
+}
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 6px;
+}
+.overflow-y-auto:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
 }
 
 /* Article: 글 본문 스타일 */
