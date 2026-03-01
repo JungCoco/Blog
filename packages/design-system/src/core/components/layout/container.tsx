@@ -36,7 +36,7 @@ export function Container({
     maxWidth = 1024,
     px = 60,
     py = 80,
-    pt = 120,
+    pt,
     pb,
     className = '',
     as: Tag = 'div',

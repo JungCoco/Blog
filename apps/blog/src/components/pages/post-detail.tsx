@@ -38,7 +38,6 @@ interface Post {
 export default function PostDetail() {
     const { slug } = useParams<{ slug: string }>();
     const [post, setPost] = useState<Post | null>(null);
-    const [loading, setLoading] = useState(true);
     const [htmlContent, setHtmlContent] = useState('');
 
     useEffect(() => {
@@ -60,19 +59,10 @@ export default function PostDetail() {
                 console.log(html);
                 setHtmlContent(html);
             }
-            setLoading(false);
         }
 
         fetchPost();
     }, [slug]);
-
-    if (loading) {
-        return (
-            <Center minHeight={400}>
-                <span className="text-gray-500">로딩 중...</span>
-            </Center>
-        );
-    }
 
     if (!post) {
         return (
@@ -88,7 +78,7 @@ export default function PostDetail() {
     }
 
     return (
-        <Container as="article" py={40}>
+        <Container as="article" py={40} px={180}>
             {/* 헤더 */}
             <Stack gap={16} className="mb-8 pb-8 border-b border-gray-200">
                 <h1 className="text-4xl font-bold">{post.title}</h1>

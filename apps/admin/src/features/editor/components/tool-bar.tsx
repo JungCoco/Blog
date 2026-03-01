@@ -87,7 +87,8 @@ export const EditorToolbar = ({ editor }: { editor: Editor }) => {
 
             try {
                 const bucketName = import.meta.env.VITE_SUPABASE_STORAGE_BUCKET;
-                const fileName = `${Date.now()}-${file.name}`;
+                const ext = file.name.split('.').pop() ?? 'png';
+                const fileName = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
 
                 const { data, error } = await supabase.storage
                     .from(bucketName)

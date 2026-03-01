@@ -49,13 +49,13 @@ export default function Navigation() {
                         </button>
                     ))}
 
-                    <button
+                    {/* <button
                         className="bg-[#14213D] text-white px-3 py-1.5 rounded-lg
                             self-center text-[14px] leading-[22px] hover:bg-[#14213D]/90 cursor-pointer transition-colors"
                         onClick={() => navigate('/editor-test')}
                     >
                         관리하기
-                    </button>
+                    </button> */}
                     <button className="self-center text-[#1F2937] hover:bg-[#1F2937]/10 cursor-pointer p-1.5 rounded-lg transition-colors">
                         <SearchIcon className="w-4 h-4" />
                     </button>
