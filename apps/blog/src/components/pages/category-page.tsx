@@ -17,21 +17,7 @@ interface CategoryPageProps {
     basePath: string;
 }
 
-export default function CategoryPage({
-    title,
-    description,
-    posts,
-    loading,
-    basePath,
-}: CategoryPageProps) {
-    if (loading) {
-        return (
-            <Center minHeight={400}>
-                <span className="text-[#64748B] text-[14px] leading-[22px]">로딩 중...</span>
-            </Center>
-        );
-    }
-
+export default function CategoryPage({ title, description, posts, basePath }: CategoryPageProps) {
     if (posts.length === 0) {
         return (
             <Container>

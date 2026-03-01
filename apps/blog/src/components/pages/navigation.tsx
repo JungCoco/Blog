@@ -2,12 +2,16 @@ import { SearchIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 const NAV_MENU = [
     {
-        label: 'Engineering',
-        href: '/engineering',
+        label: 'Development',
+        href: '/development',
     },
     {
-        label: 'Product',
-        href: '/product',
+        label: 'Craft',
+        href: '/craft',
+    },
+    {
+        label: 'Retrospect',
+        href: '/retrospect',
     },
 ];
 

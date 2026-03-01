@@ -2,8 +2,9 @@ import Navigation from './components/pages/navigation';
 import MainPage from './components/pages/main';
 import Posts from './components/pages/posts';
 import PostDetail from './components/pages/post-detail';
-import Engineering from './components/pages/engineering';
-import Product from './components/pages/product';
+import Dev from './components/pages/dev';
+import Craft from './components/pages/craft';
+import Retrospect from './components/pages/retrospect';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 /**
@@ -21,10 +22,12 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<MainPage />} />
-                    <Route path="/engineering" element={<Engineering />} />
-                    <Route path="/engineering/:slug" element={<PostDetail />} />
-                    <Route path="/product" element={<Product />} />
-                    <Route path="/product/:slug" element={<PostDetail />} />
+                    <Route path="/development" element={<Dev />} />
+                    <Route path="/development/:slug" element={<PostDetail />} />
+                    <Route path="/craft" element={<Craft />} />
+                    <Route path="/craft/:slug" element={<PostDetail />} />
+                    <Route path="/retrospect" element={<Retrospect />} />
+                    <Route path="/retrospect/:slug" element={<PostDetail />} />
                     <Route path="/posts" element={<Posts />} />
                     <Route path="/posts/:slug" element={<PostDetail />} />
                 </Routes>
@@ -50,22 +53,22 @@ function App() {
                                         Menu
                                     </span>
                                     <a
-                                        href="/posts"
+                                        href="/development"
                                         className="text-[14px] leading-[22px] text-[#64748B] hover:text-white transition-colors"
                                     >
-                                        Posts
+                                        Development
                                     </a>
                                     <a
-                                        href="/engineering"
+                                        href="/craft"
                                         className="text-[14px] leading-[22px] text-[#64748B] hover:text-white transition-colors"
                                     >
-                                        Engineering
+                                        Craft
                                     </a>
                                     <a
-                                        href="/design-system"
+                                        href="/retrospect"
                                         className="text-[14px] leading-[22px] text-[#64748B] hover:text-white transition-colors"
                                     >
-                                        Design System
+                                        Retrospect
                                     </a>
                                 </div>
                                 <div className="flex flex-col gap-[8px]">
