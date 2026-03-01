@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { Container, Stack, Flex, Center } from '@repo/design-system/components/layout';
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 5;
 
 interface Post {
     id: number;
@@ -182,9 +182,9 @@ export default function MainPage() {
 
                         <Stack gap={40}>
                             {posts.map((post) => (
-                                    <Link
-                                        key={post.id}
-                                        to={`/${post.category_slug}/${post.uuid}`}
+                                <Link
+                                    key={post.id}
+                                    to={`/${post.category_slug}/${post.uuid}`}
                                     className="group"
                                 >
                                     <Flex gap={24} align="start">
