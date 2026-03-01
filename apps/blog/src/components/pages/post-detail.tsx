@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { generateHTML } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
@@ -36,18 +36,18 @@ interface Post {
 }
 
 export default function PostDetail() {
-    const { slug } = useParams<{ slug: string }>();
+    const { id } = useParams<{ id: string }>();
     const [post, setPost] = useState<Post | null>(null);
     const [htmlContent, setHtmlContent] = useState('');
 
     useEffect(() => {
         async function fetchPost() {
-            if (!slug) return;
+            if (!id) return;
 
             const { data, error } = await supabase
                 .from('posts')
                 .select('*')
-                .eq('slug', slug)
+                .eq('uuid', id)
                 .single();
 
             if (error) {
@@ -62,7 +62,7 @@ export default function PostDetail() {
         }
 
         fetchPost();
-    }, [slug]);
+    }, [id]);
 
     return (
         <Container as="article" py={40} px={180}>

@@ -7,8 +7,8 @@ const PAGE_SIZE = 4;
 
 interface Post {
     id: number;
+    uuid: string;
     title: string;
-    slug: string;
     description: string | null;
     thumbnail_url: string | null;
     created_at: string;
@@ -41,7 +41,7 @@ export default function MainPage() {
                 .from('posts')
                 .select(
                     `
-                    id, title, slug, description, thumbnail_url, created_at,
+                    id, uuid, title, description, thumbnail_url, created_at,
                     categories!inner(category_name, slug)
                 `,
                     { count: 'exact' },
@@ -53,8 +53,8 @@ export default function MainPage() {
             if (data) {
                 const mapped: Post[] = data.map((p) => ({
                     id: p.id,
+                    uuid: p.uuid,
                     title: p.title,
-                    slug: p.slug,
                     description: p.description,
                     thumbnail_url: p.thumbnail_url,
                     created_at: p.created_at,
@@ -91,7 +91,7 @@ export default function MainPage() {
             {/* ========== 히어로: 최신 글 ========== */}
             <Container>
                 {featuredPost ? (
-                    <Link to={`/${featuredPost.category_slug}/${featuredPost.slug}`}>
+                    <Link to={`/${featuredPost.category_slug}/${featuredPost.uuid}`}>
                         <Flex gap={48} align="center" className="group">
                             <Stack gap={20} className="flex-1">
                                 <span
@@ -182,9 +182,9 @@ export default function MainPage() {
 
                         <Stack gap={40}>
                             {posts.map((post) => (
-                                <Link
-                                    key={post.id}
-                                    to={`/${post.category_slug}/${post.slug}`}
+                                    <Link
+                                        key={post.id}
+                                        to={`/${post.category_slug}/${post.uuid}`}
                                     className="group"
                                 >
                                     <Flex gap={24} align="start">

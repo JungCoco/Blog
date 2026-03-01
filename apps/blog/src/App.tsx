@@ -21,7 +21,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<MainPage />} />
                         <Route path="/:category" element={<CategoryPage />} />
-                        <Route path="/:category/:slug" element={<PostDetail />} />
+                        <Route path="/:category/:id" element={<PostDetail />} />
                     </Routes>
 
                     {/* 공통 푸터 */}

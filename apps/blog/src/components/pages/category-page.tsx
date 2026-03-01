@@ -7,8 +7,8 @@ const PAGE_SIZE = 5;
 
 interface Post {
     id: number;
+    uuid: string;
     title: string;
-    slug: string;
     description: string | null;
     thumbnail_url: string | null;
     created_at: string;
@@ -92,7 +92,7 @@ export default function CategoryPage() {
             const { data, count } = await supabase
                 .from('posts')
                 .select(
-                    `id, title, slug, description, thumbnail_url, created_at,
+                    `id, uuid, title, description, thumbnail_url, created_at,
                     categories!inner(category_name)`,
                     { count: 'exact' },
                 )
@@ -105,8 +105,8 @@ export default function CategoryPage() {
                 setPosts(
                     data.map((p) => ({
                         id: p.id,
+                        uuid: p.uuid,
                         title: p.title,
-                        slug: p.slug,
                         description: p.description,
                         thumbnail_url: p.thumbnail_url,
                         created_at: p.created_at,
@@ -192,7 +192,7 @@ export default function CategoryPage() {
                                 {posts.map((post) => (
                                     <Link
                                         key={post.id}
-                                        to={`/${category}/${post.slug}`}
+                                        to={`/${category}/${post.uuid}`}
                                         className="group"
                                     >
                                         <Flex gap={24} align="start">
